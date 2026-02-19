@@ -39,3 +39,5 @@ dump.rdb
 !.yarn/versions
 .pnp.*
 .npmrc
+.env
+
