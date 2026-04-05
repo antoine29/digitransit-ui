@@ -5,6 +5,7 @@ const CONFIG = 'lpz';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/hsl/`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const MAP_VERSION = process.env.MAP_VERSION || 'v3';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
 const APP_DESCRIPTION = 'Trip Planner application for LPZ city';
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
@@ -25,24 +26,48 @@ const linkLabel = {
   es: 'Mas informacion',
 };
 
+const {
+  // AXE,
+  NODE_ENV,
+  RUN_ENV,
+} = process.env;
+
+const hasAPISubscriptionQueryParameter = true;
+const PORT = process.env.PORT || 8080;
+const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
+
 export default {
+  PORT,
+  // AXE,
   CONFIG,
+  NODE_ENV,
+  OTPTimeout: OTP_TIMEOUT,
 
   URL: {
+    API_URL,
+    ASSET_URL: process.env.ASSET_URL,
+    MAP_URL,
     OTP: OTP_URL,
+    MAP: {
+      default: `${MAP_URL}/map/${MAP_VERSION}/hsl-map/`,
+      en: `${MAP_URL}/map/${MAP_VERSION}/hsl-map-en/`,
+    },
+
     STOP_MAP: {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
-      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
+    // REALTIME_STOP_MAP: {
+    //   default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+    // },
     FONT: 'https://www.hsl.fi/fonts/784131/6C5FB8083F348CFBB.css',
     FONTCOUNTER: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     ROOTLINK: rootLink,
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: SUGGESTION_URL,
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
-    EMISSIONS_INFO: {
-      en: 'https://www.hsl.fi/en/journey_planner_co2',
-    },
+    // EMISSIONS_INFO: {
+    //   en: 'https://www.hsl.fi/en/journey_planner_co2',
+    // },
   },
 
   indexPath: 'etusivu',
@@ -50,8 +75,7 @@ export default {
   title: 'lpz-tp',
 
   availableLanguages: ['es', 'en'],
-  availableTickets: {
-  },
+  availableTickets: {},
   defaultLanguage: 'en',
   passLanguageToRootLink: true,
 
@@ -139,7 +163,6 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-
   search: {
     /* identify searches for route numbers/labels: bus | train | metro */
     lineRegexp: /(^[0-9]+[a-z]?$|^[yuleapinkrtdz]$|(^m[12]?b?$))/i,
@@ -148,43 +171,47 @@ export default {
   useSearchPolygon: true,
 
   areaPolygon: [
-    [25.5345, 60.2592],
-    [25.3881, 60.1693],
-    [25.3559, 60.103],
-    [25.3293, 59.9371],
-    [24.2831, 59.78402],
-    [24.2721, 59.95501],
-    [24.2899, 60.00895],
-    [24.3087, 60.01947],
-    [24.1994, 60.12753],
-    [24.1362, 60.1114],
-    [24.1305, 60.12847],
-    [24.099, 60.1405],
-    [24.0179, 60.1512],
-    [24.0049, 60.1901],
-    [24.0445, 60.1918],
-    [24.0373, 60.2036],
-    [24.0796, 60.2298],
-    [24.1652, 60.2428],
-    [24.3095, 60.2965],
-    [24.3455, 60.2488],
-    [24.428, 60.3002],
-    [24.5015, 60.2872],
-    [24.4888, 60.3306],
-    [24.5625, 60.3142],
-    [24.5957, 60.3242],
-    [24.6264, 60.3597],
-    [24.666, 60.3638],
-    [24.7436, 60.3441],
-    [24.9291, 60.4523],
-    [24.974, 60.5253],
-    [24.9355, 60.5131],
-    [24.8971, 60.562],
-    [25.0388, 60.5806],
-    [25.1508, 60.5167],
-    [25.2242, 60.5016],
-    [25.3661, 60.4118],
-    [25.3652, 60.3756],
+    [-68.14771, -16.41733],
+    [-68.17053, -16.41877],
+    [-68.17744, -16.44441],
+    [-68.19906, -16.44757],
+    [-68.20536, -16.43289],
+    [-68.2402, -16.44383],
+    [-68.2486, -16.43922],
+    [-68.25641, -16.44642],
+    [-68.28073, -16.43778],
+    [-68.29274, -16.4516],
+    [-68.33598, -16.41071],
+    [-68.3531, -16.42482],
+    [-68.32247, -16.46284],
+    [-68.33448, -16.47464],
+    [-68.31556, -16.49048],
+    [-68.29875, -16.50919],
+    [-68.30686, -16.51437],
+    [-68.27683, -16.55813],
+    [-68.27102, -16.56988],
+    [-68.2613, -16.58694],
+    [-68.33792, -16.65235],
+    [-68.29638, -16.68362],
+    [-68.24512, -16.63374],
+    [-68.1979, -16.6539],
+    [-68.20087, -16.68155],
+    [-68.20276, -16.69396],
+    [-68.16904, -16.69473],
+    [-68.16256, -16.6769],
+    [-68.14421, -16.66088],
+    [-68.1256, -16.62857],
+    [-68.12776, -16.59754],
+    [-68.1086, -16.5797],
+    [-68.09322, -16.58306],
+    [-68.01903, -16.71256],
+    [-67.98477, -16.69318],
+    [-68.07623, -16.56419],
+    [-68.00986, -16.55617],
+    [-68.02821, -16.49824],
+    [-68.0568, -16.48116],
+    [-68.10213, -16.44675],
+    [-68.14771, -16.41733],
   ],
 
   menu: {},
@@ -231,11 +258,9 @@ export default {
 
   showTicketSelector: false,
 
-  staticMessages: [
-  ],
+  staticMessages: [],
   geoJson: {
-    layers: [
-    ],
+    layers: [],
   },
 
   map: {
@@ -244,12 +269,12 @@ export default {
     showStopMarkerPopupOnMobile: false,
     showScaleBar: true,
     // areBounds is for keeping map and user inside given area
-    // HSL region + Lahti
     areaBounds: {
-      // corner1: [62, 27],
-      // corner2: [59, 22],
-      corner1: [-16, -68],
-      corner2: [-17, -69]
+      // corner1: [-16.42962, -68.29132],
+      // corner2: [-16.61814, -68.03067],
+      //
+      corner1: [-16.586411,-68.238991],
+      corner2: [-16.448154,-68.016018],
     },
   },
 
@@ -264,10 +289,7 @@ export default {
   includeParkAndRideSuggestions: false,
 
   showNearYouButtons: true,
-  nearYouModes: [
-    'favorite',
-    'bus',
-  ],
+  nearYouModes: ['favorite', 'bus'],
   narrowNearYouButtons: true,
   nearYouRoutes: {
     radius: 500,
@@ -307,14 +329,11 @@ export default {
     },
   },
 
-  routeNotifications: [
-  ],
+  routeNotifications: [],
 
-  replacementBusNotification: {
-  },
+  replacementBusNotification: {},
 
-  embeddedSearch: {
-  },
+  embeddedSearch: {},
 
   startSearchFromUserLocation: true,
 
@@ -332,4 +351,3 @@ export default {
 
   showStopStatusMarkers: true,
 };
-
