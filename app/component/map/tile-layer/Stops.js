@@ -147,10 +147,11 @@ class Stops {
   getPromise(lang) {
     const zoomWithOffset =
       this.tile.coords.z + (this.tile.props.zoomOffset || 0);
-    const stopsUrl =
-      zoomWithOffset >= this.config.stopsMinZoom
-        ? this.config.URL.REALTIME_STOP_MAP
-        : this.config.URL.STOP_MAP;
+    // const stopsUrl =
+    //   zoomWithOffset >= this.config.stopsMinZoom
+    //     ? this.config.URL.REALTIME_STOP_MAP
+    //     : this.config.URL.STOP_MAP;
+    const stopsUrl = this.config.URL.STOP_MAP;
     return fetchWithLanguageAndSubscription(
       `${getLayerBaseUrl(stopsUrl, lang)}${zoomWithOffset}/${
         this.tile.coords.x
