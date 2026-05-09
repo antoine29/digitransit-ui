@@ -131,14 +131,11 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   }, []);
 
   const languages = {
-    fi: {
-      href: `/fi${location.pathname}${location.search}`,
-    },
-    sv: {
-      href: `/sv${location.pathname}${location.search}`,
-    },
     en: {
       href: `/en${location.pathname}${location.search}`,
+    },
+    es: {
+      href: `/es${location.pathname}${location.search}`,
     },
   };
 
