@@ -1,18 +1,21 @@
 import ttConfig from './timetableConfigUtils';
 
+// http://localhost:8080/map/v3/hsl-map/15/10181/17906.png
+// http://localhost:8080/map/v3/hsl-stop-map/13/4662/2370.pbf
+
 const HSLTimetables = ttConfig.HSL;
 const CONFIG = 'lpz';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/hsl/`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 const MAP_VERSION = process.env.MAP_VERSION || 'v3';
-const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl`;
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/hsl-stop-map`;
 const APP_DESCRIPTION = 'Trip Planner application for LPZ city';
 const rootLink = process.env.ROOTLINK || 'https://test.hslfi.hsldev.com';
 const BANNER_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/banners?site=JourneyPlanner`
   : process.env.BANNER_URL ||
-    'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
+  'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
 const SUGGESTION_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
   : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
@@ -54,8 +57,9 @@ export default {
     },
 
     STOP_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      default: `${POI_MAP_PREFIX}/`,
     },
+
     // REALTIME_STOP_MAP: {
     //   default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
     // },
@@ -216,10 +220,11 @@ export default {
 
   menu: {},
 
+  // this sets the center for the nearToYou map
   defaultEndpoint: {
-    address: 'Rautatieasema, Helsinki',
-    lat: 60.1710688,
-    lon: 24.9414841,
+    address: 'Plaza Murillo, La Paz',
+    lat: -16.4956816,
+    lon: -68.1334397,
   },
 
   redirectReittiopasParams: true,
@@ -273,8 +278,8 @@ export default {
       // corner1: [-16.42962, -68.29132],
       // corner2: [-16.61814, -68.03067],
       //
-      corner1: [-16.586411,-68.238991],
-      corner2: [-16.448154,-68.016018],
+      corner1: [-16.586411, -68.238991],
+      corner2: [-16.448154, -68.016018],
     },
   },
 
